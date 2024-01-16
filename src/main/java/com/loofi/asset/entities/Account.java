@@ -21,7 +21,8 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "asset_accounts")
-public class Account extends LoofiAbstractAuditingEntity{
+public class Account extends LoofiAbstractAuditingEntity {
+
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Asset_AccountGenerator")
   @SequenceGenerator(name = "Asset_AccountGenerator", sequenceName = "ASSET_ACCOUNT_ID_GEN")

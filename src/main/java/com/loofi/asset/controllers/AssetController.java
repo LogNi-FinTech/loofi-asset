@@ -5,6 +5,7 @@ import com.loofi.asset.models.SearchReq;
 import com.loofi.asset.models.SearchResp;
 import com.loofi.asset.router.LoofiAbstractCrudRouter;
 import com.loofi.asset.service.AssetService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,13 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/asset")
 @Slf4j
+@AllArgsConstructor
 public class AssetController implements LoofiAbstractCrudRouter<AssetDTO, AssetDTO> {
 
     private final AssetService assetService;
-
-    public AssetController(AssetService assetService) {
-        this.assetService = assetService;
-    }
 
     @Override
     public AssetDTO find(Long id) {

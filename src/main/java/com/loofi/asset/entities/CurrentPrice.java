@@ -19,10 +19,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "asset_current_price")
 public class CurrentPrice extends LoofiAbstractAuditingEntity{
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  private Integer id;
 
   @ManyToOne
   @JoinColumn(name = "asset_id")

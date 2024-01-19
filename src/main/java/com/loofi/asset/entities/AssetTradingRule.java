@@ -21,10 +21,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "asset_trading_rules")
 public class AssetTradingRule extends LoofiAbstractAuditingEntity {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  private Long id;
 
   @Column(name = "fixed_fee")
   private BigDecimal fixedFee = BigDecimal.ZERO;

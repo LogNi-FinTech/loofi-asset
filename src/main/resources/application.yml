@@ -4,7 +4,7 @@ server:
     mime-types: application/json,application/xml,text/html,text/xml,text/plain,application/javascript,text/css,font/ttf,font/otf,application/vnd.ms-fontobject,application/x-font,application/x-font-opentype,application/x-font-otf,application/x-font-truetype,application/x-font-ttf,image/x-icon,image/svg+xml
   port: 8080
   servlet:
-    context-path: /
+    context-path: /loofi-asset
     session:
       timeout: 30m
   tomcat:

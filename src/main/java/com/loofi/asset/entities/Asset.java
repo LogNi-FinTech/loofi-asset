@@ -24,10 +24,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "assets")
 public class Asset extends LoofiAbstractAuditingEntity {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  private Integer id;
 
   @Column(name = "name")
   private String name;

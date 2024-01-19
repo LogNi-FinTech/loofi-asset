@@ -27,10 +27,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "investor_asset_states")
 public class AssetState extends LoofiAbstractAuditingEntity {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  private Long id;
 
   @ManyToOne
   @JoinColumn(name = "asset_id")

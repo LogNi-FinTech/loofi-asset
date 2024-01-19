@@ -1,0 +1,13 @@
+singleServerConfig:
+  idleConnectionTimeout: 10000
+  connectTimeout: 10000
+  timeout: 3000
+  retryAttempts: 3
+  retryInterval: 1500
+  address: "redis://${spring.data.redis.host}:${spring.data.redis.port}"
+  connectionMinimumIdleSize: 10
+  connectionPoolSize: 64
+  database: 0
+threads: 0
+nettyThreads: 0
+codec: !<org.redisson.codec.JsonJacksonCodec> { }

@@ -7,7 +7,14 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AssetBusinessException extends RuntimeException{
+public class AssetBusinessException extends RuntimeException {
+
   HttpStatus httpStatus;
   String code;
+
+  public AssetBusinessException(HttpStatus httpStatus, String code, String message) {
+    super(message);
+    this.httpStatus = httpStatus;
+    this.code = code;
+  }
 }

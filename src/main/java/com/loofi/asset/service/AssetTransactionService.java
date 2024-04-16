@@ -14,6 +14,7 @@ import com.loofi.asset.repository.AssetRepository;
 import com.loofi.asset.repository.CurrentPriceRepository;
 import com.loofi.asset.repository.RealiseGainRepository;
 import com.loofi.asset.repository.TransactionRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -32,6 +33,7 @@ public class AssetTransactionService {
     private final TransactionRepository transactionRepository;
     private final RealiseGainRepository realiseGainRepository;
 
+    @Transactional
     public void buyAsset(PurchaseAssetReq purchaseAssetReq) {
         Account account = this.accountRepository.findByUserIdAndAssetId(
                 purchaseAssetReq.getUserId(),
@@ -44,6 +46,8 @@ public class AssetTransactionService {
         if (currentPrice == null) {
             throw new AssetBusinessException(HttpStatus.BAD_REQUEST, "400", "Asset price not found");
         }
+        account.setBalance(account.getBalance().add(purchaseAssetReq.getQuantity().multiply(currentPrice.getSpotPrice())));
+        this.accountRepository.save(account);
         Transaction transaction = Transaction.builder()
                 .createdDate(Instant.now())
                 .asset(account.getAsset())
@@ -57,6 +61,7 @@ public class AssetTransactionService {
         this.transactionRepository.save(transaction);
     }
 
+    @Transactional
     public void sellAsset(AssetSellReq assetSellReq) {
         Account account = this.accountRepository.findByUserIdAndAssetId(
                 assetSellReq.getUserId(),
@@ -69,6 +74,9 @@ public class AssetTransactionService {
         if (currentPrice == null) {
             throw new AssetBusinessException(HttpStatus.BAD_REQUEST, "400", "Asset price not found");
         }
+        account.setBalance(account.getBalance().subtract(assetSellReq.getQuantity().multiply(currentPrice.getSpotPrice())));
+        this.accountRepository.save(account);
+        Transaction purchaseTxn = this.transactionRepository.findFirstByTransactionTypeAndAssetIdAndAccountIdOrderByIdDesc(TransactionType.BUY, assetSellReq.getAssetId(), account.getId());
         Transaction transaction = Transaction.builder()
                 .createdDate(Instant.now())
                 .asset(account.getAsset())
@@ -86,7 +94,7 @@ public class AssetTransactionService {
                 .account(account)
                 .transaction(transaction)
                 .transactionType(TransactionType.SELL)
-                .realisedGain(assetSellReq.getQuantity().multiply(currentPrice.getSpotPrice()))
+                .realisedGain(transaction.getUnitPrice().subtract(purchaseTxn.getUnitPrice()).multiply(assetSellReq.getQuantity()))
                 .build();
         this.realiseGainRepository.save(realiseGain);
     }

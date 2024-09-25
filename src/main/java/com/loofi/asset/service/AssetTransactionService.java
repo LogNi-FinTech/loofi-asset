@@ -46,7 +46,7 @@ public class AssetTransactionService {
         if (currentPrice == null) {
             throw new AssetBusinessException(HttpStatus.BAD_REQUEST, "400", "Asset price not found");
         }
-        account.setBalance(account.getBalance().add(purchaseAssetReq.getQuantity().multiply(currentPrice.getSpotPrice())));
+        account.setBalance(account.getBalance().add(purchaseAssetReq.getQuantity()));
         this.accountRepository.save(account);
         Transaction transaction = Transaction.builder()
                 .createdDate(Instant.now())
@@ -74,7 +74,7 @@ public class AssetTransactionService {
         if (currentPrice == null) {
             throw new AssetBusinessException(HttpStatus.BAD_REQUEST, "400", "Asset price not found");
         }
-        account.setBalance(account.getBalance().subtract(assetSellReq.getQuantity().multiply(currentPrice.getSpotPrice())));
+        account.setBalance(account.getBalance().subtract(assetSellReq.getQuantity()));
         this.accountRepository.save(account);
         Transaction purchaseTxn = this.transactionRepository.findFirstByTransactionTypeAndAssetIdAndAccountIdOrderByIdDesc(TransactionType.BUY, assetSellReq.getAssetId(), account.getId());
         Transaction transaction = Transaction.builder()

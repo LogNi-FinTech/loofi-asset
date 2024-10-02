@@ -3,6 +3,10 @@ package com.loofi.asset.entities;
 import com.loofi.asset.models.enums.TransactionStatus;
 import com.loofi.asset.models.enums.TransactionType;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -24,6 +28,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@SuperBuilder
 @Entity
 @Table(name = "asset_transactions")
 public class Transaction extends LoofiAbstractAuditingEntity {

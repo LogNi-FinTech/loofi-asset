@@ -8,4 +8,6 @@ public interface AccountRepository extends LoofiAbstractEntityRepository<Account
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     Account findByUserIdAndAssetId(Long userId, Long assetId);
+
+    Account findByIdAndAssetId(Long id, Long assetId);
 }

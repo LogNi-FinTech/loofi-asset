@@ -74,6 +74,9 @@ public class AssetTransactionService {
         if (currentPrice == null) {
             throw new AssetBusinessException(HttpStatus.BAD_REQUEST, "400", "Asset price not found");
         }
+        if (account.getBalance().compareTo(assetSellReq.getQuantity()) < 0) {
+            throw new AssetBusinessException(HttpStatus.BAD_REQUEST, "400", "Asset quantity not enough");
+        }
         account.setBalance(account.getBalance().subtract(assetSellReq.getQuantity()));
         this.accountRepository.save(account);
         Transaction purchaseTxn = this.transactionRepository.findFirstByTransactionTypeAndAssetIdAndAccountIdOrderByIdDesc(TransactionType.BUY, assetSellReq.getAssetId(), account.getId());
